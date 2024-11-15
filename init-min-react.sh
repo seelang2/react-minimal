@@ -93,6 +93,7 @@ cat > .gitignore<< EOF
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -112,15 +113,13 @@ const fs = require('fs');
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 
-async function main() {
+(async () => {
 	data = await readFile('package.json');
 	data = JSON.parse(data);
 	data.scripts.start = 'webpack serve --mode development --open';
 	data.scripts.build = 'webpack --mode production';
 	await writeFile('package.json', JSON.stringify(data, false, 2));
-}
-
-main();
+})();
 "
 
 mkdir public
